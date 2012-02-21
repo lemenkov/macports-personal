@@ -1,0 +1,26 @@
+From e22cb605aeafe141a11fb931d29e9b1347bc6a1e Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 29 Jan 2012 16:52:04 +0400
+Subject: [PATCH 2/2] Fix assertion in ArmCpuCaps test
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ unit_test/cpu_test.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/unit_test/cpu_test.cc b/unit_test/cpu_test.cc
+index 0914132..ba4455e 100644
+--- a/unit_test/cpu_test.cc
++++ b/unit_test/cpu_test.cc
+@@ -23,7 +23,7 @@ extern "C" int ArmCpuCaps(const char* cpuinfoname);
+ 
+ TEST_F(libyuvTest, TestLinuxNeon) {
+   EXPECT_EQ(0,ArmCpuCaps("testdata/arm_v7.txt"));
+-  EXPECT_NE(kCpuHasNEON,ArmCpuCaps("testdata/tegra3.txt"));
++  EXPECT_EQ(kCpuHasNEON,ArmCpuCaps("testdata/tegra3.txt"));
+ }
+ 
+ TEST_F(libyuvTest, TestVersion) {
+-- 
+1.7.7.6
+

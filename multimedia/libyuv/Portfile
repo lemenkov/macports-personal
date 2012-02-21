@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+name           libyuv
+version        0
+categories     multimedia
+platforms      darwin
+maintainers    peter_lemenkov
+license        BSD
+description    YUV conversion and scaling functionality library
+long_description This is an open source project that includes YUV conversion and scaling \
+                 functionality. Converts all webcam formats to YUV (I420). Convert YUV to \
+                 formats for rendering/effects. Rotate by 90 degrees to adjust for mobile \
+                 devices in portrait mode. Scale YUV to prepare content for compression, \
+                 with point, bilinear or box filter.
+homepage       http://code.google.com/p/libyuv/
+fetch.type     svn
+svn.url        http://libyuv.googlecode.com/svn/trunk     
+svn.revision   173
+
+depends_lib
+
+patch.dir      ${workpath}/trunk
+patch.pre_args -p1
+patchfiles     libyuv-0001-Initial-autotools-support.patch \
+               libyuv-0002-Fix-assertion-in-ArmCpuCaps-test.patch
+
+worksrcdir ${workpath}/trunk
+use_autoreconf      yes
+configure.args --disable-static --with-pic --with-test
