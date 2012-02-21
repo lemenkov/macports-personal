@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           erlrtpproxy
+version        0.4.7
+categories     comms erlang
+platforms      darwin
+maintainers    peter_lemenkov
+license        BSD
+description    RTP proxying daemon
+long_description RTP proxying daemon for OpenSER and compatible SIP-servers.
+homepage       https://github.com/lemenkov/erlrtpproxy
+github.setup   lemenkov erlrtpproxy 0.4.7
+depends_build  port:erlang
+depends_lib    port:rtplib port:erlsyslog
+
+patch.pre_args -p1
+patchfiles     fix_install.patch
+
+checksums           rmd160  e46a739774009acac0765a90435d29deba4931fa \
+                    sha256  632248d4ad55bfcc6240fb31b50072acdce952c8466613b44ba3575bef512607
+
+configure               {}
