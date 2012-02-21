@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           erlsyslog
+version        0.1
+categories     erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        MIT
+description    Syslog facility for Erlang
+long_description Syslog facility for Erlang.
+homepage       http://github.com/lemenkov/erlsyslog
+github.setup   lemenkov erlsyslog 0.1
+depends_build  port:erlang
+
+checksums           rmd160  241f37cc1adecc1b7f99ea16ac6adf40de92750d \
+                    sha256  66e62cca751441ca03a4314ac5447bca46f6ab3bedd87ba9f1f7be04bc96cc38
+
+configure               {}
+
+set libdir ${prefix}/lib/erlang/lib/${name}-${version}
+
+destroot {
+    xinstall -d ${destroot}${libdir}
+    copy ${worksrcpath}/ebin ${destroot}${libdir}/ebin
+    copy ${worksrcpath}/include ${destroot}${libdir}/include
+}
