@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           erlang-rtplib
+version        0.5.8
+categories     multimedia comms erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        BSD
+description    Erlang RTP/RTCP codec library
+long_description Erlang RTP/RTCP codec library.
+homepage       http://github.com/lemenkov/rtplib
+github.setup   lemenkov rtplib 0.5.8
+depends_lib    port:spandsp-devel port:libsamplerate
+
+checksums           rmd160  ffda46a2ad3faa3e79d6e990694fdb897ccaa214 \
+                    sha256  27b51799894ca120c1376d3e876963fed8bfbff27b553f001421fe20edbe6b35
+
+configure               {}
+
+test.run        yes
+test.cmd        make
+test.target     check
