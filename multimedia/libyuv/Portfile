@@ -29,3 +29,7 @@ patchfiles     libyuv-0001-Initial-autotools-support.patch \
 worksrcdir ${workpath}/trunk
 use_autoreconf      yes
 configure.args --disable-static --with-pic --with-test
+
+test.run        yes
+test.cmd        make
+test.target     check
