@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           eradius
+version        0.8.6
+categories     comms erlang
+platforms      darwin
+maintainers    peter_lemenkov
+license        MIT
+description    Erlang RADIUS library
+long_description Erlang RADIUS library.
+homepage       https://github.com/lemenkov/eradius
+github.setup   lemenkov eradius 0.8.6
+depends_build  port:erlang
+
+checksums           rmd160  17b3424a02fac877dc82cba744bbbe95a3469a1f \
+                    sha256  991c405b28d78ea202429f1d95fafba6f9eede6cf981eb877c83b8ba2ba416a6
+
+configure               {}
