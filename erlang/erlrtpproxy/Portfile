@@ -9,7 +9,7 @@ version        0.4.7
 categories     comms erlang
 platforms      darwin
 maintainers    peter_lemenkov
-license        BSD
+license        GPLv3+
 description    RTP proxying daemon
 long_description RTP proxying daemon for OpenSER and compatible SIP-servers.
 homepage       https://github.com/lemenkov/erlrtpproxy
