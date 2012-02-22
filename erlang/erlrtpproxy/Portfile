@@ -5,7 +5,7 @@ PortSystem     1.0
 PortGroup       github 1.0
 
 name           erlrtpproxy
-version        0.4.7
+version        0.4.8
 categories     comms erlang
 platforms      darwin
 maintainers    peter_lemenkov
@@ -13,14 +13,14 @@ license        GPLv3+
 description    RTP proxying daemon
 long_description RTP proxying daemon for OpenSER and compatible SIP-servers.
 homepage       https://github.com/lemenkov/erlrtpproxy
-github.setup   lemenkov erlrtpproxy 0.4.7
+github.setup   lemenkov erlrtpproxy 0.4.8
 depends_build  port:erlang
 depends_lib    port:rtplib port:erlsyslog
 
 patch.pre_args -p1
 patchfiles     fix_install.patch
 
-checksums           rmd160  e46a739774009acac0765a90435d29deba4931fa \
-                    sha256  632248d4ad55bfcc6240fb31b50072acdce952c8466613b44ba3575bef512607
+checksums           rmd160  c8c6bcee633a1bb6a57ee26421a5573746a2a75b \
+                    sha256  debdfa782bbfd0a3687b7d9ca6efd5ccc463609dd65d1076f073b5aa0600f67f
 
 configure               {}

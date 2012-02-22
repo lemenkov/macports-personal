@@ -1,22 +1,37 @@
 diff --git a/Makefile b/Makefile
-index c6cc2e5..77a0d22 100644
+index 1a5588c..9728e86 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -26,12 +26,12 @@ ifeq ($(UNAME), Darwin)
- 	@export
- 	@install -p -m 0644 $(APP_FILE) $(DESTDIR)$(ERLDIR)/$(APP_FILE)
- 	@install -p -m 0644 $(ERL_OBJECTS) $(DESTDIR)$(ERLDIR)/$(EBIN_DIR)
+@@ -20,22 +20,22 @@ compile:
+ 
+ install: all
+ 	@test -d $(DESTDIR)$(ERLDIR)/ebin || mkdir -p $(DESTDIR)$(ERLDIR)/ebin
+-	@test -d $(DESTDIR)$(prefix)/etc || mkdir -p $(DESTDIR)$(prefix)/etc
+-	@test -d $(DESTDIR)$(prefix)/var/lib/erl$(NAME) || mkdir -p $(DESTDIR)$(prefix)/var/lib/erl$(NAME)
++	@test -d $(DESTDIR)/opt/local/etc || mkdir -p $(DESTDIR)/opt/local/etc
++	@test -d $(DESTDIR)/opt/local/var/lib/erl$(NAME) || mkdir -p $(DESTDIR)/opt/local/var/lib/erl$(NAME)
+ 
+ 	@install -p -m 0644 $(APP_FILE) $(DESTDIR)$(ERLDIR)/ebin
+ 	@install -p -m 0644 $(ERL_OBJECTS) $(DESTDIR)$(ERLDIR)/ebin
 -	@install -p -m 0644 priv/erlrtpproxy.config $(DESTDIR)$(prefix)/etc/erl$(NAME).config
-+	@install -p -m 0644 priv/erlrtpproxy.config $(DESTDIR)/opt/local/etc/erl$(NAME).config
- #	@install -p -m 0755 priv/erlrtpproxy.init $(DESTDIR)/etc/rc.d/init.d/erl$(NAME)
--	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)$(prefix)/etc/erl$(NAME)
--	@install -d $(DESTDIR)$(prefix)/var/lib/erl$(NAME)
 -	@install -p -m 0644 priv/erlang.cookie $(DESTDIR)$(prefix)/var/lib/erl$(NAME)/.erlang.cookie
 -	@install -p -m 0644 priv/hosts.erlang $(DESTDIR)$(prefix)/var/lib/erl$(NAME)/.hosts.erlang
-+	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)/opt/local/etc/erl$(NAME)
-+	@install -d $(DESTDIR)/opt/local/var/lib/erl$(NAME)
++	@install -p -m 0644 priv/erlrtpproxy.config $(DESTDIR)/opt/local/etc/erl$(NAME).config
 +	@install -p -m 0644 priv/erlang.cookie $(DESTDIR)/opt/local/var/lib/erl$(NAME)/.erlang.cookie
 +	@install -p -m 0644 priv/hosts.erlang $(DESTDIR)/opt/local/var/lib/erl$(NAME)/.hosts.erlang
+ ifeq ($(UNAME), Darwin)
+-	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)$(prefix)/etc/erl$(NAME)
++	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)/opt/local/etc/erl$(NAME)
  	@echo "erl$(NAME) installed. \n"
  else
- 	install -D -p -m 0644 $(APP_FILE) $(DESTDIR)$(ERLDIR)/$(APP_FILE)
+-	@test -d $(DESTDIR)$(prefix)/etc/rc.d/init.d || mkdir -p $(DESTDIR)$(prefix)/etc/rc.d/init.d
+-	@test -d $(DESTDIR)$(prefix)/etc/sysconfig || mkdir -p $(DESTDIR)$(prefix)/etc/sysconfig
+-	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)$(prefix)/etc/sysconfig/erl$(NAME)
+-	@install -p -m 0755 priv/erlrtpproxy.init $(DESTDIR)$(prefix)/etc/rc.d/init.d/erl$(NAME)
++	@test -d $(DESTDIR)/opt/local/etc/rc.d/init.d || mkdir -p $(DESTDIR)/opt/local/etc/rc.d/init.d
++	@test -d $(DESTDIR)/opt/local/etc/sysconfig || mkdir -p $(DESTDIR)/opt/local/etc/sysconfig
++	@install -p -m 0644 priv/erlrtpproxy.sysconfig $(DESTDIR)/opt/local/etc/sysconfig/erl$(NAME)
++	@install -p -m 0755 priv/erlrtpproxy.init $(DESTDIR)/opt/local/etc/rc.d/init.d/erl$(NAME)
+ endif
+ 
+ test:
