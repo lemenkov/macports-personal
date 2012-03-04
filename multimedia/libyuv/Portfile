@@ -17,18 +17,19 @@ long_description This is an open source project that includes YUV conversion and
 homepage       http://code.google.com/p/libyuv/
 fetch.type     svn
 svn.url        http://libyuv.googlecode.com/svn/trunk     
-svn.revision   173
+svn.revision   209
 
-depends_lib
+depends_lib    port:jpeg
 
 patch.dir      ${workpath}/trunk
 patch.pre_args -p1
 patchfiles     libyuv-0001-Initial-autotools-support.patch \
-               libyuv-0002-Fix-assertion-in-ArmCpuCaps-test.patch
+               libyuv-0002-Fix-paths-in-ArmCpuCaps-test.patch
 
 worksrcdir ${workpath}/trunk
 use_autoreconf      yes
-configure.args --disable-static --with-pic --with-test
+configure.cppflags "-I../include ${configure.cppflags}"
+configure.args --disable-static --with-pic --with-test --with-mjpeg
 
 test.run        yes
 test.cmd        make

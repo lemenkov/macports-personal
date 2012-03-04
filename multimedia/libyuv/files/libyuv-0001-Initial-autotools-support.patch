@@ -1,17 +1,17 @@
-From dfd837755db4cb24ed561645656c98e3695cfe63 Mon Sep 17 00:00:00 2001
+From ac8ae3906c9c3e338344fb952696f455d950ef2f Mon Sep 17 00:00:00 2001
 From: Peter Lemenkov <lemenkov@gmail.com>
 Date: Fri, 16 Dec 2011 22:08:41 +0400
 Subject: [PATCH 1/2] Initial autotools support
 
 Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
 ---
- Makefile.am           |    3 ++
- autogen.sh            |    7 ++++
- configure.ac          |   96 +++++++++++++++++++++++++++++++++++++++++++++++++
- source/Makefile.am    |   50 +++++++++++++++++++++++++
- source/libyuv.pc.in   |    9 +++++
- unit_test/Makefile.am |   24 ++++++++++++
- 6 files changed, 189 insertions(+), 0 deletions(-)
+ Makefile.am           |    3 +
+ autogen.sh            |    7 +++
+ configure.ac          |  130 +++++++++++++++++++++++++++++++++++++++++++++++++
+ source/Makefile.am    |   59 ++++++++++++++++++++++
+ source/libyuv.pc.in   |    9 +++
+ unit_test/Makefile.am |   24 +++++++++
+ 6 files changed, 232 insertions(+), 0 deletions(-)
  create mode 100644 Makefile.am
  create mode 100755 autogen.sh
  create mode 100644 configure.ac
@@ -43,10 +43,10 @@ index 0000000..bfd37d1
 +autoconf
 diff --git a/configure.ac b/configure.ac
 new file mode 100644
-index 0000000..1b4166e
+index 0000000..396fa10
 --- /dev/null
 +++ b/configure.ac
-@@ -0,0 +1,96 @@
+@@ -0,0 +1,130 @@
 +AC_INIT([libyuv], [0], [http://groups.google.com/group/discuss-libyuv], [libyuv], [http://code.google.com/p/libyuv/])
 +
 +AC_CANONICAL_TARGET
@@ -61,6 +61,62 @@ index 0000000..1b4166e
 +
 +AC_LANG_CPLUSPLUS
 +
++AC_ARG_WITH([mjpeg],
++	    AC_HELP_STRING([--with-mjpeg],[enable Motion JPEG decoder.]),
++	    [with_mjpeg="$withval"],[with_mjpeg="no"]
++	    )
++
++if test "$with_mjpeg" = "yes" ; then
++	AC_MSG_WARN([Motion JPEG decoder is enabled])
++	# FIXME
++#	AC_CHECK_HEADERS(
++#			 [jpeglib.h],
++#			 [],
++#			 [AC_MSG_ERROR([jpeglib.h header not found])],
++#			 []
++#			 )
++	AC_CHECK_LIB(
++		     [jpeg],
++		     [jpeg_read_header],
++		     [
++		      CXXFLAGS="$CXXFLAGS -DHAVE_JPEG"
++		      LIBJPEG_LIBS="-ljpeg"
++		      AC_SUBST([LIBJPEG_LIBS])
++		      ],
++		     [AC_MSG_ERROR([libjpeg or libjpeg-turbo library not found])],
++		     []
++		     )
++
++else
++	AC_MSG_WARN([Motion JPEG decoder is disabled])
++fi
++
++
++AC_ARG_WITH([test],
++	    AC_HELP_STRING([--with-test],[enable test suite.]),
++	    [with_test="$withval"],[with_test="no"]
++	    )
++
++if test "$with_test" = "yes" ; then
++	AC_MSG_WARN([Test suite is enabled])
++	AC_CHECK_HEADERS(
++			 [gtest/gtest.h],
++			 [],
++			 [AC_MSG_ERROR([gtest not found])],
++			 []
++			 )
++	AC_PATH_PROG([GTEST_CONFIG], gtest-config, [no])
++	if test "$GTEST_CONFIG" = "no" ; then
++		AC_MSG_ERROR([gtest-config was not found])
++	fi
++	GTEST_CXXFLAGS=`$GTEST_CONFIG --cxxflags`
++	GTEST_LIBS=`$GTEST_CONFIG --libs`
++	AC_SUBST([GTEST_CXXFLAGS])
++	AC_SUBST([GTEST_LIBS])
++else
++	AC_MSG_WARN([Test suite is disabled])
++fi
++
 +case "$target_os" in
 +	linux*)
 +		posix="yes"
@@ -69,7 +125,9 @@ index 0000000..1b4166e
 +		posix="yes"
 +		;;
 +	mingw*)
-+		windows="yes"
++#		windows="yes"
++		posix="yes"
++		LDFLAGS="$LDFLAGS -no-undefined --enable-runtime-pseudo-reloc -avoid-version"
 +		;;
 +	*)
 +		AC_MSG_ERROR([No support for this target ($target) yet])
@@ -104,31 +162,6 @@ index 0000000..1b4166e
 +		;;
 +esac
 +
-+AC_ARG_WITH([test],
-+	    AC_HELP_STRING([--with-test],[enable test suite.]),
-+	    [with_test="$withval"],[with_test="no"]
-+	    )
-+
-+if test "$with_test" = "yes" ; then
-+	AC_MSG_WARN([Test suite is enabled])
-+	AC_CHECK_HEADERS(
-+			 [gtest/gtest.h],
-+			 [],
-+			 [AC_MSG_ERROR([gtest not found])],
-+			 []
-+			 )
-+	AC_PATH_PROG([GTEST_CONFIG], gtest-config, [no])
-+	if test "$GTEST_CONFIG" = "no" ; then
-+		AC_MSG_ERROR([gtest-config was not found])
-+	fi
-+	GTEST_CXXFLAGS=`$GTEST_CONFIG --cxxflags`
-+	GTEST_LIBS=`$GTEST_CONFIG --libs`
-+	AC_SUBST([GTEST_CXXFLAGS])
-+	AC_SUBST([GTEST_LIBS])
-+else
-+	AC_MSG_WARN([Test suite is disabled])
-+fi
-+
 +AC_CONFIG_FILES([
 +Makefile
 +source/libyuv.pc
@@ -139,16 +172,17 @@ index 0000000..1b4166e
 +AM_CONDITIONAL(LIBYUV_POSIX, test "$posix" = "yes")
 +AM_CONDITIONAL(LIBYUV_WINDOWS, test "$windows" = "yes")
 +
++AM_CONDITIONAL(WITH_MJPEG, test "$with_mjpeg" = "yes")
 +AM_CONDITIONAL(WITH_TEST, test "$with_test" = "yes")
 +AM_CONDITIONAL(ENABLE_NEON, test "$has_neon" = "yes")
 +
 +AC_OUTPUT
 diff --git a/source/Makefile.am b/source/Makefile.am
 new file mode 100644
-index 0000000..04f1c32
+index 0000000..5d1efa5
 --- /dev/null
 +++ b/source/Makefile.am
-@@ -0,0 +1,50 @@
+@@ -0,0 +1,59 @@
 +lib_LTLIBRARIES = libyuv.la
 +
 +pkgconfigdir = $(libdir)/pkgconfig
@@ -157,17 +191,10 @@ index 0000000..04f1c32
 +libyuvincludedir = $(includedir)
 +libyuvnobase_includedir = $(includedir)/libyuv
 +
-+libyuvinclude_HEADERS = ../include/libyuv.h
-+libyuvnobase_include_HEADERS = ../include/libyuv/basic_types.h \
-+			       ../include/libyuv/compare.h \
-+			       ../include/libyuv/convert.h \
-+			       ../include/libyuv/cpu_id.h \
-+			       ../include/libyuv/format_conversion.h \
-+			       ../include/libyuv/planar_functions.h \
-+			       ../include/libyuv/rotate.h \
-+			       ../include/libyuv/scale.h \
-+			       ../include/libyuv/version.h \
-+			       ../include/libyuv/video_common.h
++if WITH_MJPEG
++mjpeg_SOURCES = mjpeg_decoder.cc
++mjpeg_HDRS = ../include/libyuv/mjpeg_decoder.h
++endif
 +
 +if LIBYUV_POSIX
 +posix_SOURCES = row_posix.cc
@@ -181,9 +208,23 @@ index 0000000..04f1c32
 +neon_SOURCES = rotate_neon.cc row_neon.cc
 +endif
 +
++libyuvinclude_HEADERS = ../include/libyuv.h
++libyuvnobase_include_HEADERS = ../include/libyuv/basic_types.h \
++			       ../include/libyuv/compare.h \
++			       ../include/libyuv/convert.h \
++			       ../include/libyuv/convert_from.h \
++			       ../include/libyuv/cpu_id.h \
++			       ../include/libyuv/format_conversion.h \
++			       ../include/libyuv/planar_functions.h \
++			       ../include/libyuv/rotate.h \
++			       ../include/libyuv/scale.h \
++			       ../include/libyuv/version.h \
++			       ../include/libyuv/video_common.h \
++			       $(mjpeg_HDRS)
++
 +libyuv_la_SOURCES = compare.cc \
 +		    convert.cc \
-+		    convertfrom.cc \
++		    convert_from.cc \
 +		    cpu_id.cc \
 +		    format_conversion.cc \
 +		    planar_functions.cc \
@@ -195,10 +236,12 @@ index 0000000..04f1c32
 +		    video_common.cc \
 +		    $(posix_SOURCES) \
 +		    $(windows_SOURCES) \
++		    $(mjpeg_SOURCES) \
 +		    $(neon_SOURCES)
 +
 +libyuv_la_CXXFLAGS = $(AM_LDFLAGS) -I$(top_srcdir)/include
 +libyuv_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LIBYUV_VERSION_INFO)
++libyuv_la_LIBADD = @LIBJPEG_LIBS@
 diff --git a/source/libyuv.pc.in b/source/libyuv.pc.in
 new file mode 100644
 index 0000000..d921dd5

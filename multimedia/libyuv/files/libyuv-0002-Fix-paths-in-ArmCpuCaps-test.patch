@@ -1,0 +1,28 @@
+From 628b04f1ed3971ae4c7622e2b1bf7e7a624e292f Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Sun, 4 Mar 2012 11:07:55 +0400
+Subject: [PATCH 2/2] Fix paths in ArmCpuCaps test
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ unit_test/cpu_test.cc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/unit_test/cpu_test.cc b/unit_test/cpu_test.cc
+index 0c43d3f..8422d08 100644
+--- a/unit_test/cpu_test.cc
++++ b/unit_test/cpu_test.cc
+@@ -23,8 +23,8 @@ namespace libyuv {
+ extern "C" int ArmCpuCaps(const char* cpuinfoname);
+ 
+ TEST_F(libyuvTest, TestLinuxNeon) {
+-  EXPECT_EQ(0, ArmCpuCaps("unit_test/testdata/arm_v7.txt"));
+-  EXPECT_EQ(kCpuHasNEON, ArmCpuCaps("unit_test/testdata/tegra3.txt"));
++  EXPECT_EQ(0, ArmCpuCaps("testdata/arm_v7.txt"));
++  EXPECT_EQ(kCpuHasNEON, ArmCpuCaps("testdata/tegra3.txt"));
+ }
+ 
+ TEST_F(libyuvTest, TestVersion) {
+-- 
+1.7.7.6
+
