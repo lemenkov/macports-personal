@@ -19,6 +19,7 @@ fetch.type     svn
 svn.url        http://libyuv.googlecode.com/svn/trunk     
 svn.revision   209
 
+depends_build  port:google-test
 depends_lib    port:jpeg
 
 patch.dir      ${workpath}/trunk
