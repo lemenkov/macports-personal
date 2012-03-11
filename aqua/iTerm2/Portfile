@@ -1,0 +1,50 @@
+# $Id: Portfile 88496 2012-01-03 14:08:28Z snc@macports.org $
+
+PortSystem  1.0
+PortGroup   xcode 1.0
+
+name        iTerm2
+version     1.0.0.20120203
+categories  aqua shells
+maintainers singingwolfboy openmaintainer
+license         GPL-2+
+description Enhanced terminal emulator program, successor to iTerm
+long_description    \
+    iTerm2 is a replacement for Terminal and the successor to iTerm. It \
+    works on Macs with Leopard or Snow Leopard. Its focus is on \
+    performance, internationalization, and supporting innovative features \
+    that make your life better.
+
+homepage        http://www.iterm2.com/
+master_sites    https://github.com/gnachman/iTerm2/tarball/v${version}
+
+checksums           sha256  11d00ec8370f5d177a0a39b3e4e04518e61e9dbfcb33688c8305f08d9214aa7f \
+                    rmd160  7c383ec2f32c6ba815f3e981f9b374a090a8c551
+
+# needed by dated libcurl on Leopard (and probably Tiger)
+fetch.ignore_sslcert yes
+
+xcode.project   iTerm.xcodeproj
+xcode.target    iTerm
+
+post-extract {
+    move [glob ${workpath}/*] ${worksrcpath}
+}
+
+post-patch {
+    reinplace "s|^version *= *.*$|version = \"${version}\"|" ${worksrcpath}/updateVersion.py
+    # disable Sparkle autoupdate
+    reinplace "s|.*Sparkle.*||g" ${worksrcpath}/${xcode.project}/project.pbxproj
+}
+
+destroot {
+    file copy ${build.dir}/build/Deployment/iTerm.app \
+        ${destroot}${applications_dir}/${name}.app
+}
+
+platform darwin 8 {
+    pre-fetch {
+        ui_error "${name} requires Mac OS X 10.5 or newer"
+        return -code error "unsupported Mac OS X version"
+    }
+}
