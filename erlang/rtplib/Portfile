@@ -15,7 +15,7 @@ long_description Erlang RTP/RTCP codec library.
 homepage       http://github.com/lemenkov/rtplib
 github.setup   lemenkov rtplib 0.5.8
 depends_build  port:erlang
-depends_lib    port:spandsp-devel port:libsamplerate
+depends_lib    port:spandsp-devel port:libsamplerate port:speex
 
 checksums           rmd160  ffda46a2ad3faa3e79d6e990694fdb897ccaa214 \
                     sha256  27b51799894ca120c1376d3e876963fed8bfbff27b553f001421fe20edbe6b35
