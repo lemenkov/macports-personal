@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           meck
+version        0.7.1
+categories     erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        ASL 2.0
+description    A mocking library for Erlang
+long_description With meck you can easily mock modules in Erlang. Since meck is intended to be used in testing, you can also perform some basic validations on the mocked modules, such as making sure no function is called in a way it should not.
+homepage       http://eproxus.github.com/meck/
+github.setup   eproxus meck 0.7.1
+depends_build  port:erlang port:erlang:rebar
+
+checksums           rmd160  13051cbf9ffc2b6f08059f515bdce96ad1c2a7fd \
+                    sha256  15f31f4a074cb1a5f0c5030ab3d10f61207e2c3d4498290c4d44aae7a399f511
+
+configure               {}
+
+build.cmd           rebar compile -v
+
+set libdir ${prefix}/lib/erlang/lib/${name}-${version}
+
+destroot {
+    xinstall -d ${destroot}${libdir}
+    copy ${worksrcpath}/ebin ${destroot}${libdir}/ebin
+}
