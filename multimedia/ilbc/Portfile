@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           ilbc
+version        1.1.1
+categories     multimedia
+platforms      darwin
+maintainers    peter_lemenkov
+license        BSD
+description    An audio codec for use in low-delay speech and audio communication
+long_description An audio codec for use in low-delay speech and audio communication.
+homepage       https://github.com/dekkers/libilbc
+github.setup    lemenkov libilbc fedora-1.1.1
+
+checksums           rmd160  13296c3029a52cd30b91e8ad269725b7a5c4a3f4 \
+                    sha256  529602ae4ff1ecb6c2f8786c914fffc282b0dc35f70e62ab033f25908dc3a345
+
+use_autoreconf      yes
+configure.args --disable-static --with-pic
