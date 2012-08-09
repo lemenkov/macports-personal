@@ -5,7 +5,7 @@ PortSystem     1.0
 PortGroup       github 1.0
 
 name           erlang-rtplib
-version        0.5.8
+version        0.5.18
 categories     multimedia comms erlang devel
 platforms      darwin
 maintainers    peter_lemenkov
@@ -13,14 +13,18 @@ license        BSD
 description    Erlang RTP/RTCP codec library
 long_description Erlang RTP/RTCP codec library.
 homepage       http://github.com/lemenkov/rtplib
-github.setup   lemenkov rtplib 0.5.8
-depends_build  port:erlang
-depends_lib    port:spandsp-devel port:libsamplerate port:speex
+github.setup   lemenkov rtplib 0.5.18
+depends_build  port:erlang port:erlang:rebar port:erlang:erlando port:erlang:skerl
+depends_lib    port:spandsp-devel port:libsamplerate port:speex port:libilbc port:erlang:skerl
 
-checksums           rmd160  ffda46a2ad3faa3e79d6e990694fdb897ccaa214 \
-                    sha256  27b51799894ca120c1376d3e876963fed8bfbff27b553f001421fe20edbe6b35
+patch.pre_args -p1
+patchfiles     0001-Fix-for-OSX-BSD.patch
 
-configure               {}
+checksums           rmd160  21406cb9cd686cc0ff02a4f35b0efad502476c68 \
+                    sha256  886445caf7db4e646e086470235a95c359b3409e4eb2c45a644aedaf28219964
+
+use_autoreconf      yes
+configure.args --disable-static --with-pic --with-test --with-mjpeg
 
 test.run        yes
 test.cmd        make

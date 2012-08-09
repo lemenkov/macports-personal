@@ -1,0 +1,32 @@
+From b33a315bac2878ed951734c17b36eda70f6f161b Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Thu, 9 Aug 2012 18:54:56 +0400
+Subject: [PATCH 1/1] Fix for OSX/BSD
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ Makefile.am | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 84ab038..04e2107 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -1,10 +1,12 @@
+ SUBDIRS = c_src
+ 
+ all:
+-	@cp -av c_src/.libs/*.so ./priv/
++	$(mkdir_p) ./priv/
++	$(install_sh_PROGRAM) c_src/.libs/*.so ./priv/
+ 	@VSN="@PACKAGE_VERSION@" $(REBAR) compile
+ check:
+-	@cp -av c_src/.libs/*.so ./priv/
++	$(mkdir_p) ./priv/
++	$(install_sh_PROGRAM) c_src/.libs/*.so ./priv/
+ 	@$(REBAR) eunit
+ 
+ clean-local:
+-- 
+1.7.11.2
+
