@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           erlando
+version        2.8.5
+categories     erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        MPL
+description    A set of syntax extensions for Erlang
+long_description A set of syntax extensions for Erlang.
+homepage       http://hg.rabbitmq.com/erlando/
+github.setup   rabbitmq erlando rabbitmq_v2_8_5
+depends_build  port:erlang port:erlang:rebar
+
+checksums           rmd160  280ef16a9376ac1c46b3891fd511ade66ed0df41 \
+                    sha256  124f476fe90c2c2681b15f9db26825f315ed5a2c5b2ab2d4172ad3927d4997da
+
+configure               {}
+
+build.cmd           rebar compile -v
+
+set libdir ${prefix}/lib/erlang/lib/${name}-${version}
+
+destroot {
+    xinstall -d ${destroot}${libdir}
+    copy ${worksrcpath}/ebin ${destroot}${libdir}/ebin
+    copy ${worksrcpath}/include ${destroot}${libdir}/include
+}
