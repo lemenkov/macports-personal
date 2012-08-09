@@ -14,8 +14,8 @@ description    Erlang RTP/RTCP codec library
 long_description Erlang RTP/RTCP codec library.
 homepage       http://github.com/lemenkov/rtplib
 github.setup   lemenkov rtplib 0.5.18
-depends_build  port:erlang port:erlang:rebar port:erlang:erlando port:erlang:skerl
-depends_lib    port:spandsp-devel port:libsamplerate port:speex port:libilbc port:erlang:skerl
+depends_build  port:erlang port:erlang:rebar port:erlang:erlando port:erlang:skerl port:opus
+depends_lib    port:spandsp-devel port:libsamplerate port:speex port:libilbc port:erlang:skerl port:opus
 
 patch.pre_args -p1
 patchfiles     0001-Fix-for-OSX-BSD.patch
