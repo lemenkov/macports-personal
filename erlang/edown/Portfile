@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           edown
+version        0.3.0
+categories     erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        ASL 2.0
+description    EDoc extension for generating Github-flavored Markdown
+long_description EDoc extension for generating Github-flavored Markdown.
+homepage       https://github.com/esl/edown
+github.setup   esl edown 0.3.0
+depends_build  port:erlang port:erlang:rebar
+
+#patch.pre_args -p0
+patchfiles     fix_install.patch
+
+checksums           fix_install.patch \
+                    rmd160  3997080de2f49a1c6d48133b0718a70a3afd429d \
+                    sha256  847f3c9296b9c0f323e6a47d5b1d604f9e632ab86bb87b01b76dfd6439551494 \
+                    edown-0.3.0.tar.gz \
+                    rmd160  3997080de2f49a1c6d48133b0718a70a3afd429d \
+                    sha256  847f3c9296b9c0f323e6a47d5b1d604f9e632ab86bb87b01b76dfd6439551494
+
+configure               {}
+
+build.cmd           rebar compile -v
+
+set libdir ${prefix}/lib/erlang/lib/${name}-${version}
+
+destroot {
+    xinstall -d ${destroot}${libdir}
+    copy ${worksrcpath}/ebin ${destroot}${libdir}/ebin
+}

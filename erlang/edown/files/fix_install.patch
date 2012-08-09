@@ -1,0 +1,11 @@
+--- src/edown.app.src	2012-08-09 17:23:06.000000000 +0400
++++ src/edown.app.src	2012-08-09 17:23:21.000000000 +0400
+@@ -17,7 +17,7 @@
+ 
+ {application, edown,
+  [
+-  {vsn, git},
++  {vsn, "0.3.0"},
+   {description, "Markdown extension for EDoc"},
+   {applications, [kernel, stdlib, edoc]},
+   {env, []}
