@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem     1.0
+PortGroup       github 1.0
+
+name           gproc
+version        0.2.11
+categories     erlang devel
+platforms      darwin
+maintainers    peter_lemenkov
+license        ASL 2.0
+description    Extended process registry for Erlang
+long_description Extended process registry for Erlang.
+homepage       http://eproxus.github.com/meck/
+github.setup   esl gproc v0.2.11
+depends_build  port:erlang port:erlang:rebar port:erlang:edown port:erlang:gen_leader_revival
+
+patchfiles     fix_install.patch
+
+checksums           rmd160  04965d1de6f63030cd0f757cce957fbc5ce44760 \
+                    sha256  10e532866f010be52217f75cece2068efe9ac4417e726f19e2997ffb5ea53864
+
+configure               {}
+
+build.cmd           rebar compile -v
+
+set libdir ${prefix}/lib/erlang/lib/${name}-${version}
+
+destroot {
+    xinstall -d ${destroot}${libdir}
+    copy ${worksrcpath}/ebin ${destroot}${libdir}/ebin
+    copy ${worksrcpath}/include ${destroot}${libdir}/include
+    copy ${worksrcpath}/priv ${destroot}${libdir}/priv
+}
