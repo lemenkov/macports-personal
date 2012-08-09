@@ -1,0 +1,27 @@
+From e62f4e26cdfa3da248d629336320fbf5846d0b41 Mon Sep 17 00:00:00 2001
+From: Peter Lemenkov <lemenkov@gmail.com>
+Date: Tue, 5 Jun 2012 15:10:12 +0400
+Subject: [PATCH 4/9] Allow discarding building ports
+
+Signed-off-by: Peter Lemenkov <lemenkov@gmail.com>
+---
+ src/rebar_port_compiler.erl |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/rebar_port_compiler.erl b/src/rebar_port_compiler.erl
+index cdd9be6..e56089b 100644
+--- a/src/rebar_port_compiler.erl
++++ b/src/rebar_port_compiler.erl
+@@ -110,6 +110,9 @@ compile(Config, AppFile) ->
+             ok;                                 % old specs empty
+         {new, [], []} ->
+             ok;                                 % port_specs empty
++        {_, _, [{_,_,_,[],[],_}]} ->
++            % Special case to discard port processing at all
++            ok;                                 % port_specs empty
+ 
+         _ ->                                    % have old/new specs
+ 
+-- 
+1.7.10.2
+
